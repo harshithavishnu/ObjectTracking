@@ -10,9 +10,9 @@ public class ColorMaskFilter implements PixelFilter {
     int threshold;
 
     public ColorMaskFilter(){
-        targetRed = 37;
-        targetGreen = 131;
-        targetBlue = 45;
+        targetRed = 22;
+        targetGreen = 255;
+        targetBlue = 0;
         threshold = 80;
     }
     @Override
@@ -23,12 +23,11 @@ public class ColorMaskFilter implements PixelFilter {
 
         for (int r = 0; r < red.length; r++) {
             for (int c = 0; c < red[r].length; c++) {
-                boolean close = closeColors(red[r][c], green[r][c], blue[r][c], targetRed, targetGreen, targetBlue);
-                boolean closeR = closeRatios(red[r][c], green[r][c], blue[r][c], targetRed, targetGreen, targetBlue);
-                if (close || closeR) {
+                boolean close = closeRatios(red[r][c], green[r][c], blue[r][c], targetRed, targetGreen, targetBlue);
+                if (close) {
                     red[r][c] = 255;
-                    green[r][c] = 255;
-                    blue[r][c] = 255;
+                    green[r][c] = 251;
+                    blue[r][c] = 0;
                 } else {
                     red[r][c] = 0;
                     green[r][c] = 0;
@@ -68,6 +67,8 @@ public class ColorMaskFilter implements PixelFilter {
     public double distanceTo(short n1, short n2, short m1, short m2){
         return (Math.abs(Math.abs(m1-m2))-(Math.abs(n1-n2)));
     }
+
+
 
 
 }
