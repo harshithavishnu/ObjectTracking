@@ -81,8 +81,8 @@ public class ColorMaskFilter implements PixelFilter {
         for (int r = 0; r < red.length; r++) {
             for (int c = 0; c < red[r].length; c++) {
                 if (red[r][c] == 255) {
-                    sumX += c;
-                    sumY += r;
+                    sumX += c;  // x = column
+                    sumY += r;  // y = row
                     count++;
                 }
             }
