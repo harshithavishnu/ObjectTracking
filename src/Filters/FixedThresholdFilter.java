@@ -1,9 +1,11 @@
 package Filters;
 
+import Interfaces.Drawable;
 import Interfaces.PixelFilter;
 import core.DImage;
+import processing.core.PApplet;
 
-public class FixedThresholdFilter implements PixelFilter {
+public class FixedThresholdFilter implements PixelFilter, Drawable {
     private int threshold;
 
     public FixedThresholdFilter() {
@@ -26,6 +28,12 @@ public class FixedThresholdFilter implements PixelFilter {
 
         img.setPixels(grid);
         return img;
+    }
+
+    @Override
+    public void drawOverlay(PApplet window, DImage original, DImage filtered) {
+        window.fill(window.color(255, 0, 0));
+        window.ellipse(0, 0, 30, 30);
     }
 }
 
