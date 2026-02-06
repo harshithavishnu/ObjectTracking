@@ -365,6 +365,13 @@ public class DisplayWindow extends PApplet {
                     "no inputs!");
             System.err.println(e.getMessage());
         }
+
+        System.out.println("checking if drawble");
+        if (f instanceof Drawable) {
+            System.out.println("This is a Drawable filter.  Running setup(...).");
+            ((Drawable) f).setup(this);
+        }
+
         return f;
     }
 

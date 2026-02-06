@@ -15,4 +15,12 @@ public interface Drawable {
      * @param filtered the output from your processImage method
      */
     public void drawOverlay(PApplet window, DImage original, DImage filtered);
+
+    /***
+     * This method will be run ONCE right after your object is initially constructed.
+     * It lets you do any setup you need to do, such as loading images from disk.
+     *
+     * @param window
+     */
+    public void setup(PApplet window);
 }
