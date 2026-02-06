@@ -1,17 +1,22 @@
+package Filters;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Fruit {
-    private int x = 800;
-    private int y = 575;
+    private int x;
+    private int y;
     private int size;
     private int speed;
     private PImage img;
 
-    public Fruit(int size, int speed, PImage img) {
+    public Fruit(PApplet window, int size, int speed, PImage img) {
         this.size = size;
         this.speed = speed;
         this.img = img;
+
+        this.x = (int) window.random(0, window.width - size);
+        this.y = -size;
     }
 
     public void update() {
@@ -20,18 +25,17 @@ public class Fruit {
 
     public void draw(PApplet window) {
         if (img != null) {
-            window.image(img, x, y - size, size, size);
+            window.image(img, x, y, size, size);
         } else {
-            window.rect(x, y - size, size, size);
+            window.rect(x, y, size, size);
         }
     }
 
-    public boolean isOffScreen() {
-        return x + size < 0;
+    public boolean isOffScreen(PApplet window) {
+        return y > window.height;
     }
 
     public int getX() { return x; }
     public int getY() { return y; }
-    public int getWidth() { return size; }
     public int getSize() { return size; }
 }

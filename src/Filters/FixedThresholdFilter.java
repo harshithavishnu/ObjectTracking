@@ -5,10 +5,13 @@ import Interfaces.PixelFilter;
 import core.DImage;
 import processing.core.PApplet;
 
+
 public class FixedThresholdFilter implements PixelFilter, Drawable {
     private int threshold;
+    private Game game;
 
-    public FixedThresholdFilter() {
+    public FixedThresholdFilter(Game game) {
+        this.game = game;
         threshold = 127;
     }
 
@@ -32,8 +35,12 @@ public class FixedThresholdFilter implements PixelFilter, Drawable {
 
     @Override
     public void drawOverlay(PApplet window, DImage original, DImage filtered) {
-        window.fill(window.color(255, 0, 0));
-        window.ellipse(0, 0, 30, 30);
+        short[][] grid = filtered.getBWPixelGrid();
+        int[] center = ColorMaskFilter.findCenter(grid);
+
+        if (center != null) {
+            game.updateBlade(center[0], center[1]);
+
+        }
     }
 }
-
