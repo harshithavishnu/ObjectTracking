@@ -8,17 +8,13 @@ public class ColorMaskFilter implements PixelFilter {
     short targetGreen;
     short targetBlue;
     int threshold;
-    static int[] lastCenter;
+    int[] lastCenter;
 
     public ColorMaskFilter() {
         targetRed = 29;
         targetGreen = 203;
         targetBlue = 45;
         threshold = 50;
-    }
-
-    public static int[] getLastCenter() {
-        return lastCenter;
     }
 
 
@@ -48,12 +44,15 @@ public class ColorMaskFilter implements PixelFilter {
                 }
             }
         }
-
+        int[] center = findCenter(red);
+        if (center != null) {
+            drawCenterCircle(red, center[0], center[1], red1, green1, blue1);
+        }
         lastCenter = findCenter(red);
-        drawStar(red, red1, green1, blue1, star);
         img.setColorChannels(red1, green1, blue1);
         if (lastCenter != null) {
-            drawStar(red, red1, green1, blue1, img);
+            drawCenterCircle(red, lastCenter[1], lastCenter[0], red1, green1, blue1);
+            drawStar(red, red1, green1, blue1, star);
         }
         return img;
     }
@@ -112,29 +111,29 @@ public class ColorMaskFilter implements PixelFilter {
 
     }
 
-//    public void drawCenterCircle(short[][] r, int cx, int cy, short[][] r1, short[][] g1, short[][] b1) {
-//        int rows = r.length;
-//        int cols = r[0].length;
-//
-//        int r2 = 10 * 10;
-//
-//        for (int y1 = -10; y1 <= 10; y1++) {
-//            for (int x1 = -10; x1 <= 10; x1++) {
-//
-//                int x = cx + x1;
-//                int y = cy + y1;
-//
-//                if (x < 0 || x >= cols || y < 0 || y >= rows) continue;
-//
-//                int dist2 = x1 * x1 + y1 * y1;
-//                if (Math.abs(dist2 - r2) < 10) {
-//                    r1[y][x] = 255;
-//                    g1[y][x] = 0;
-//                    b1[y][x] = 0;
-//                }
-//            }
-//        }
-//    }
+    public void drawCenterCircle(short[][] r, int cx, int cy, short[][] r1, short[][] g1, short[][] b1) {
+        int rows = r.length;
+        int cols = r[0].length;
+
+        int r2 = 10 * 10;
+
+        for (int y1 = -10; y1 <= 10; y1++) {
+            for (int x1 = -10; x1 <= 10; x1++) {
+
+                int x = cx + x1;
+                int y = cy + y1;
+
+                if (x < 0 || x >= cols || y < 0 || y >= rows) continue;
+
+                int dist2 = x1 * x1 + y1 * y1;
+                if (Math.abs(dist2 - r2) < 10) {
+                    r1[y][x] = 255;
+                    g1[y][x] = 0;
+                    b1[y][x] = 0;
+                }
+            }
+        }
+    }
 
     public void drawStar(short[][]red, short[][] r1, short[][] g1, short[][] b1, DImage image) {
         DImage image1 = Downsample(image);
@@ -158,18 +157,23 @@ public class ColorMaskFilter implements PixelFilter {
     }
 
     public DImage Downsample(DImage img){
-        short[][] grid = img.getBWPixelGrid();
-        short[][] small = new short[(grid.length)/2][(grid[0].length)/2];
+        short[][] red = img.getRedChannel();
+        short[][] green = img.getGreenChannel();
+        short[][]blue = img.getBlueChannel();
+        short[][] smallR = new short[(red.length)/2][(red[0].length)/2];
+        short[][] smallG = new short[(red.length)/2][(red[0].length)/2];
+        short[][] smallB = new short[(red.length)/2][(red[0].length)/2];
 
-        for (int r = 0; r < small.length; r++) {
-            for (int c = 0; c < small[r].length; c++) {
-                small[r][c] = grid[r*2][c*2];
+        for (int r = 0; r < smallR.length; r++) {
+            for (int c = 0; c < smallR[r].length; c++) {
+                smallR[r][c] = red[r*2][c*2];
+                smallG[r][c] = green[r*2][c*2];
+                smallB[r][c] = blue[r*2][c*2];
             }
         }
-        DImage out = new DImage(small.length, small[0].length);
-        out.setPixels(small);
+        DImage out = new DImage(smallR.length, smallR[0].length);
+        out.setColorChannels(smallR, smallG, smallB);
         return out;
     }
-
     }
 

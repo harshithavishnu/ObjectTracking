@@ -8,10 +8,8 @@ import processing.core.PApplet;
 
 public class FixedThresholdFilter implements PixelFilter, Drawable {
     private int threshold;
-    private Game game;
 
-    public FixedThresholdFilter(Game game) {
-        this.game = game;
+    public FixedThresholdFilter() {
         threshold = 127;
     }
 
@@ -38,9 +36,10 @@ public class FixedThresholdFilter implements PixelFilter, Drawable {
         short[][] grid = filtered.getBWPixelGrid();
         int[] center = ColorMaskFilter.findCenter(grid);
 
-        if (center != null) {
-            game.updateBlade(center[0], center[1]);
-
         }
+
+    @Override
+    public void setup(PApplet window) {
+
     }
 }

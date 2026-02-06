@@ -1,5 +1,6 @@
 package Filters;
 
+import core.DImage;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -8,13 +9,12 @@ public class Fruit {
     private int y;
     private int size;
     private int speed;
-    private PImage img;
+    private DImage img;
 
-    public Fruit(PApplet window, int size, int speed, PImage img) {
+    public Fruit(PApplet window, int size, int speed, DImage img) {
         this.size = size;
         this.speed = speed;
         this.img = img;
-
         this.x = (int) window.random(0, window.width - size);
         this.y = -size;
     }

@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 // TODO: comment this class
 
-public class DImage {
+public class DImage extends PImage {
     private PImage img;
     private int width, height;
     private ColorComponents2d channels;
