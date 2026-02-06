@@ -7,6 +7,5 @@ public class RunMe {
 
 //         --== Determine your input interactively with menus ==--
         DisplayWindow.getInputInteractively(800,600);
-
     }
 }
