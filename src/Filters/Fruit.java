@@ -1,6 +1,5 @@
 package Filters;
 
-import core.DImage;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -9,13 +8,13 @@ public class Fruit {
     private int y;
     private int size;
     private int speed;
-    private DImage img;
+    private PImage img;
 
-    public Fruit(PApplet window, int size, int speed, DImage img) {
+    public Fruit(PApplet window, int size, int speed, PImage img) {
         this.size = size;
         this.speed = speed;
         this.img = img;
-        this.x = (int) window.random(0, window.width - size);
+        this.x = (int) window.random(20, window.width - size - 20);
         this.y = -size;
     }
 
@@ -32,10 +31,22 @@ public class Fruit {
     }
 
     public boolean isOffScreen(PApplet window) {
-        return y > window.height;
+        return y > window.height + size;
     }
 
-    public int getX() { return x; }
-    public int getY() { return y; }
-    public int getSize() { return size; }
+    public int centerX() {
+        return x+size/2;
+    }
+
+    public int centerY() {
+        return y+size/2;
+    }
+
+    public int getSize() {
+        return size/2;
+    }
+
+    public float getRadius(){
+        return size / 2f;
+    }
 }
