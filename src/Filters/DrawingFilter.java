@@ -8,6 +8,7 @@ import processing.core.PImage;
 
 import java.util.ArrayList;
 
+
 public class DrawingFilter implements PixelFilter, Drawable {
     private final short targetRed = 29;
     private final short targetGreen = 203;
@@ -19,6 +20,7 @@ public class DrawingFilter implements PixelFilter, Drawable {
     private PImage watermelon;
     private PImage ninjaStar;
     private int frameCount = 0;
+    private int counter = 0;
 
 
     @Override
@@ -113,6 +115,14 @@ public class DrawingFilter implements PixelFilter, Drawable {
         drawTrail(window);
         updateAndDrawFruits(window);
         drawNinjaStar(window);
+        drawCounter(window);
+    }
+
+    private void drawCounter(PApplet window) {
+        window.textSize(20);
+        window.fill(0);
+        window.text("Current Streak: " + counter, 500, 350);
+        window.fill(255);
     }
 
     private void spawnFruit(PApplet window) {
@@ -164,7 +174,11 @@ public class DrawingFilter implements PixelFilter, Drawable {
         float dy = ballCenter[1] - f.centerY();
         float dist = (float) Math.sqrt(dx * dx + dy * dy);
 
-        return dist < f.getRadius();
+        if(dist < f.getRadius()){
+            counter++;
+            return true;
+        }
+        return false;
     }
 
 

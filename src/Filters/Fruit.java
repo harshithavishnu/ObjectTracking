@@ -14,7 +14,7 @@ public class Fruit {
         this.size = size;
         this.speed = speed;
         this.img = img;
-        this.x = (int) window.random(20, window.width - size - 20);
+        this.x = (int) window.random(20, window.width - size - 100);
         this.y = -size;
     }
 
