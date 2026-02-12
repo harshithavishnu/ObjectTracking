@@ -21,6 +21,8 @@ public class DrawingFilter implements PixelFilter, Drawable {
     private PImage ninjaStar;
     private int frameCount = 0;
     private int counter = 0;
+    private boolean gameStarted = false;
+
 
 
     @Override
@@ -29,9 +31,33 @@ public class DrawingFilter implements PixelFilter, Drawable {
         ninjaStar = window.loadImage("images/Ninjastar.png");
     }
 
+
     public static int[] getLastCenter() {
         return ballCenter;
     }
+
+    private void drawStartScreen(PApplet window) {
+        window.fill(0, 150);
+        window.rect(0, 0, window.width, window.height);
+
+        window.fill(255);
+        window.textAlign(PApplet.CENTER);
+        window.textSize(40);
+        window.text("Fruit Ninja Camera", (float) window.width / 2, (float) window.height / 2 - 40);
+
+        int btnX = window.width / 2 - 100;
+        int btnY = window.height / 2;
+        int btnW = 200;
+        int btnH = 50;
+
+        window.fill(50, 200, 50);
+        window.rect(btnX, btnY, btnW, btnH, 10); // rounded corners
+
+        window.fill(255);
+        window.textSize(20);
+        window.text("START", window.width / 2f, btnY + btnH / 2f + 7);
+    }
+
 
 
     @Override
@@ -110,18 +136,25 @@ public class DrawingFilter implements PixelFilter, Drawable {
 
     @Override
     public void drawOverlay(PApplet window, DImage original, DImage filtered) {
-        spawnFruit(window);
-        updateTrail();
-        drawTrail(window);
-        updateAndDrawFruits(window);
-        drawNinjaStar(window);
-        drawCounter(window);
+        if (!gameStarted){
+            drawStartScreen(window);
+            mousePressed(window);
+            return;
+        }
+        else {
+            spawnFruit(window);
+            updateTrail();
+            drawTrail(window);
+            updateAndDrawFruits(window);
+            drawNinjaStar(window);
+            drawCounter(window);
+        }
     }
 
     private void drawCounter(PApplet window) {
         window.textSize(20);
         window.fill(0);
-        window.text("Current Streak: " + counter, 500, 350);
+        window.text("Current Streak: " + counter, 431, 436);
         window.fill(255);
     }
 
@@ -188,6 +221,18 @@ public class DrawingFilter implements PixelFilter, Drawable {
         window.imageMode(PApplet.CENTER);
         window.image(ninjaStar, ballCenter[0], ballCenter[1], 60, 60);
         window.imageMode(PApplet.CORNER);
+    }
+
+    public void mousePressed(PApplet window) {
+        int btnX = window.width / 2 - 100;
+        int btnY = window.height / 2;
+        int btnW = 200;
+        int btnH = 50;
+
+        if (window.mouseX >= btnX && window.mouseX <= btnX + btnW &&
+                window.mouseY >= btnY && window.mouseY <= btnY + btnH) {
+            gameStarted = true;
+        }
     }
 }
 
